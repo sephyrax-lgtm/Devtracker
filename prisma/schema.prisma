@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String        @id @default(cuid())
+  clerkId   String        @unique
+  email     String        @unique
+  name      String?
+  createdAt DateTime      @default(now())
+  projects  Project[]
+  sessions  TimeSession[]
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  clientName  String?
+  hourlyRate  Float?
+  status      String        @default("active")
+  color       String        @default("#3B82F6")
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions    TimeSession[]
+  createdAt   DateTime      @default(now())
+}
+
+model TimeSession {
+  id          String   @id @default(cuid())
+  description String?
+  startTime   DateTime
+  endTime     DateTime?
+  duration    Int      @default(0)
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
