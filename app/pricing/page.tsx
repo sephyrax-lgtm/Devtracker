@@ -2,49 +2,102 @@ import Link from 'next/link'
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-6">
-        <h1 className="text-4xl font-bold text-center mb-4">Tarifs</h1>
-        <p className="text-gray-600 text-center mb-12">
-          Commence gratuitement, upgrade quand tu es prêt
-        </p>
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Plan Free */}
-          <div className="bg-white rounded-lg shadow p-8 border-2 border-gray-200">
-            <h2 className="text-2xl font-bold mb-2">Free</h2>
-            <p className="text-4xl font-bold mb-6">0€<span className="text-gray-500 text-lg">/mois</span></p>
-            
-            <ul className="space-y-3 mb-8">
+      {/* ── Header ── */}
+      <header style={{ borderBottom: '1px solid var(--border)' }}>
+        <div className="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--red)', display: 'inline-block', boxShadow: '0 0 8px var(--red)' }} />
+            <span style={{ fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>DevTracker</span>
+          </Link>
+          <Link href="/dashboard" className="btn-secondary" style={{ padding: '8px 16px', fontSize: '0.8125rem', textDecoration: 'none' }}>
+            ← Dashboard
+          </Link>
+        </div>
+      </header>
+
+      {/* ── Content ── */}
+      <main className="max-w-4xl mx-auto px-6 py-20">
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <div className="stat-badge" style={{ marginBottom: 20, display: 'inline-block' }}>Tarifs simples</div>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)', marginBottom: 16 }}>
+            Commence gratuitement,<br />
+            <span style={{ color: 'var(--red)' }}>upgrade quand tu es prêt</span>
+          </h1>
+          <p style={{ fontSize: '1.0625rem', color: 'var(--text-secondary)' }}>
+            Aucune carte de crédit requise pour commencer.
+          </p>
+        </div>
+
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+
+          {/* ── Plan Free ── */}
+          <div className="card fade-in" style={{ padding: '36px 32px' }}>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Free</h2>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>0€</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>/mois</span>
+              </div>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 8 }}>Pour démarrer et tester.</p>
+            </div>
+
+            <div className="divider" style={{ marginBottom: 28 }} />
+
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
               {[
                 '3 projets maximum',
                 'Chronomètre basique',
                 'Historique 30 jours',
                 'Export CSV',
-              ].map((feature) => (
-                <li key={feature} className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  <span className="text-gray-700">{feature}</span>
+              ].map((f) => (
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ color: '#22c55e', fontWeight: 700, fontSize: '0.875rem' }}>✓</span>
+                  <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{f}</span>
                 </li>
               ))}
             </ul>
 
             <Link href="/dashboard">
-              <button className="w-full py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50">
+              <button className="btn-secondary" style={{ width: '100%', justifyContent: 'center', padding: '12px 0' }}>
                 Commencer gratuitement
               </button>
             </Link>
           </div>
 
-          {/* Plan Pro */}
-          <div className="bg-blue-600 rounded-lg shadow p-8 border-2 border-blue-600 text-white relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-black px-4 py-1 rounded-full text-sm font-bold">
-              ⭐ Recommandé
+          {/* ── Plan Pro ── */}
+          <div className="fade-in" style={{
+            padding: '36px 32px',
+            borderRadius: 12,
+            background: 'var(--bg-card)',
+            border: '1px solid var(--red)',
+            boxShadow: '0 0 32px var(--red-glow)',
+            position: 'relative',
+            animationDelay: '0.08s',
+          }}>
+            {/* Badge recommandé */}
+            <div style={{
+              position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)',
+              background: 'var(--red)', color: '#fff',
+              fontSize: '0.75rem', fontWeight: 700, padding: '4px 14px', borderRadius: 9999,
+              letterSpacing: '0.04em', whiteSpace: 'nowrap',
+            }}>
+              ⭐ RECOMMANDÉ
             </div>
-            <h2 className="text-2xl font-bold mb-2">Pro</h2>
-            <p className="text-4xl font-bold mb-6">9€<span className="text-blue-200 text-lg">/mois</span></p>
-            
-            <ul className="space-y-3 mb-8">
+
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Pro</h2>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>9€</span>
+                <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>/mois</span>
+              </div>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 8 }}>Pour les freelances sérieux.</p>
+            </div>
+
+            <div className="divider" style={{ marginBottom: 28 }} />
+
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
               {[
                 'Projets illimités',
                 'Facturation automatique',
@@ -52,26 +105,25 @@ export default function PricingPage() {
                 'Historique illimité',
                 'Export PDF & CSV',
                 'Support prioritaire',
-              ].map((feature) => (
-                <li key={feature} className="flex items-center gap-2">
-                  <span className="text-yellow-300">✓</span>
-                  <span>{feature}</span>
+              ].map((f) => (
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <span style={{ color: 'var(--red)', fontWeight: 700, fontSize: '0.875rem' }}>✓</span>
+                  <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>{f}</span>
                 </li>
               ))}
             </ul>
 
-            <button className="w-full py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50">
+            <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '12px 0' }}>
               Passer au Pro →
             </button>
           </div>
         </div>
 
-        <div className="text-center mt-8">
-          <Link href="/dashboard" className="text-gray-500 hover:text-blue-600">
-            ← Retour au Dashboard
-          </Link>
-        </div>
-      </div>
+        {/* Garantie */}
+        <p style={{ textAlign: 'center', marginTop: 40, fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+          🔒 Paiement sécurisé via Stripe · Annulable à tout moment
+        </p>
+      </main>
     </div>
   )
 }

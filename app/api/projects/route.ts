@@ -64,3 +64,46 @@ export async function GET() {
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const user = await currentUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+    }
+
+    const { id } = await request.json()
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID requis' }, { status: 400 })
+    }
+
+    const project = await prisma.project.findUnique({
+      where: { id }
+    })
+
+    if (!project) {
+      return NextResponse.json({ error: 'Projet non trouvé' }, { status: 404 })
+    }
+
+    const dbUser = await prisma.user.findUnique({
+      where: { clerkId: user.id }
+    })
+
+    if (!dbUser || project.userId !== dbUser.id) {
+      return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+    }
+
+    // Soft delete to preserve time sessions
+    const updatedProject = await prisma.project.update({
+      where: { id },
+      data: { status: 'archived' }
+    })
+
+    return NextResponse.json({ success: true, project: updatedProject })
+  } catch (error) {
+    console.error('Erreur suppression projet:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
